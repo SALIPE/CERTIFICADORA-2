@@ -1,11 +1,17 @@
 package com.furiosos.models;
 
-import com.furiosos.exceptions.ApiRequestException;
-
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+
+import com.furiosos.exceptions.ApiRequestException;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -15,8 +21,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private UUID id;
     private String senha_hash;
     private String nome;
     private String email;
@@ -32,7 +37,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String id, String nome, String email, String perfil, Date criado_em, Date atualizado_em, boolean ativo) {
+    public User(UUID id, String nome, String email, String perfil, Date criado_em, Date atualizado_em, boolean ativo) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -42,11 +47,11 @@ public class User implements Serializable {
         this.ativo = ativo;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -98,7 +103,7 @@ public class User implements Serializable {
         if (role.equals("ADMIN") || role.equals("ALUNO")) {
             this.perfil = role;
         } else {
-            throw new ApiRequestException("Role inválida. Só é aceito 'waiter', 'cashier', 'manager', 'admin'.");
+            throw new ApiRequestException("Role inválida. Só é aceito 'ADMIN' ou 'ALUNO'.");
         }
     }
 

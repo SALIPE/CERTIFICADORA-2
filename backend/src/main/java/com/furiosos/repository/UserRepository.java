@@ -1,12 +1,15 @@
 package com.furiosos.repository;
 
-import com.furiosos.models.User;
+import java.util.UUID;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<User, Long>{
+import com.furiosos.models.User;
 
-    User findById(long id);
-    
+@Repository
+public interface UserRepository extends JpaRepository<User, UUID> {
+
     User findByEmail(String email);
 
 }

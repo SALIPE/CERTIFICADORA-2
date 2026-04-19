@@ -7,6 +7,7 @@ import java.util.List;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.furiosos.exceptions.ApiRequestException;
+import com.furiosos.models.User;
 import com.furiosos.repository.UserRepository;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -14,13 +15,14 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.util.UUID;
 
 public class AuthJjwt {
     private static UserRepository userRepository;
-    private static Key AuthKey = new SecretKeySpec("tokenKEY12345678910tokenKEY12345678910".getBytes(),
+    private static final Key AuthKey = new SecretKeySpec("tokenKEY12345678910tokenKEY12345678910".getBytes(),
             SignatureAlgorithm.HS256.getJcaName());
 
-    private static JwtParser tokenParser = Jwts.parserBuilder().setSigningKey(AuthKey).build();
+    private static final JwtParser tokenParser = Jwts.parserBuilder().setSigningKey(AuthKey).build();
 
     public static String generateToken(long userId) {
         // expiration time for the token (1 day = 1000(ms) * 60(s) * 60(min) * 24(h))
@@ -33,6 +35,71 @@ public class AuthJjwt {
                 .compact();
 
         return token;
+    }
+
+    public static String generateTokenWithClaims(String userId, String userName, String userRole) {
+        Date expiration = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24);
+
+        String token = Jwts.builder()
+                .setSubject(userId)
+                .claim("nome", userName)
+                .claim("perfil", userRole)
+                .setExpiration(expiration)
+                .signWith(AuthKey)
+                .compact();
+
+        return token;
+    }
+
+    public static String extractUserIdFromToken(String bearerToken) {
+        if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
+            throw new ApiRequestException("Token inválido");
+        }
+
+        try {
+            String subject = tokenParser.parseClaimsJws(bearerToken.substring(7)).getBody().getSubject();
+            return subject;
+        } catch (ExpiredJwtException e) {
+            throw new ApiRequestException("Token expirou");
+        } catch (MalformedJwtException m) {
+            throw new ApiRequestException("Token inválido");
+        } catch (Exception e) {
+            throw new ApiRequestException("Erro no token");
+        }
+    }
+
+    public static String extractUserRoleFromToken(String bearerToken) {
+        if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
+            throw new ApiRequestException("Token inválido");
+        }
+
+        try {
+            String role = (String) tokenParser.parseClaimsJws(bearerToken.substring(7)).getBody().get("perfil");
+            return role;
+        } catch (ExpiredJwtException e) {
+            throw new ApiRequestException("Token expirou");
+        } catch (MalformedJwtException m) {
+            throw new ApiRequestException("Token inválido");
+        } catch (Exception e) {
+            throw new ApiRequestException("Erro no token");
+        }
+    }
+
+    public static String extractUserNameFromToken(String bearerToken) {
+        if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
+            throw new ApiRequestException("Token inválido");
+        }
+
+        try {
+            String name = (String) tokenParser.parseClaimsJws(bearerToken.substring(7)).getBody().get("nome");
+            return name;
+        } catch (ExpiredJwtException e) {
+            throw new ApiRequestException("Token expirou");
+        } catch (MalformedJwtException m) {
+            throw new ApiRequestException("Token inválido");
+        } catch (Exception e) {
+            throw new ApiRequestException("Erro no token");
+        }
     }
 
     public static void tokenAuth(String bearerToken) {
@@ -55,12 +122,14 @@ public class AuthJjwt {
         if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
             throw new ApiRequestException("Não foi enviado token corretamente");
         }
-    
+
         try {
             // Validate, parse the token and get the userId
-            long userId = Integer.parseInt(tokenParser.parseClaimsJws(bearerToken.substring(7)).getBody().getSubject());
-            String userRole = userRepository.findById(userId).getPerfil();
-    
+            UUID userId = UUID.fromString(tokenParser.parseClaimsJws(bearerToken.substring(7)).getBody().getSubject());
+            
+            User user = userRepository.findById(userId).get();
+            String userRole = user.getPerfil();
+
             if (roles instanceof List<?> && ((List<?>) roles).get(0) instanceof String) {
                 List<String> roleList = (List<String>) roles;
                 if (!roleList.contains(userRole))
@@ -81,16 +150,17 @@ public class AuthJjwt {
         }
     }
 
-    public static <T> long tokenAuth(String bearerToken, T roles, boolean getUserId) {
+    public static <T> UUID tokenAuth(String bearerToken, T roles, boolean getUserId) {
         if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
             throw new ApiRequestException("Não foi enviado Auth");
         }
-    
+
         try {
             // Validate, parse the token and get the userId
-            long userId = Integer.parseInt(tokenParser.parseClaimsJws(bearerToken.substring(7)).getBody().getSubject());
-            String userRole = userRepository.findById(userId).getPerfil();
-    
+            UUID userId = UUID.fromString(tokenParser.parseClaimsJws(bearerToken.substring(7)).getBody().getSubject());
+            User user = userRepository.findById(userId).get();
+            String userRole = user.getPerfil();
+
             if (roles instanceof List<?> && ((List<?>) roles).get(0) instanceof String) {
                 List<String> roleList = (List<String>) roles;
                 if (!roleList.contains(userRole))
