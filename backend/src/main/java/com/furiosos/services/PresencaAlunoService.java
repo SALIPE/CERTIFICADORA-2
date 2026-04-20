@@ -35,6 +35,10 @@ public class PresencaAlunoService {
 
     @Autowired
     private MatriculaAlunoRepository matriculaRepository;
+    
+    public void verificarHistoricoPresenca(){
+        
+    }
 
     public PresencaAlunoDTO registrarPresenca(PresencaAlunoDTO presencaDTO) {
         if (presencaDTO.getAluno_id() == null) {

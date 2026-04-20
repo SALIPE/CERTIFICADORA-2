@@ -5,8 +5,8 @@ import java.util.UUID;
 
 public class AulaDTO {
 
-    private UUID id;
-    private UUID turma_id;
+    private String id;
+    private String turma_id;
     private Date data_hora;
     private String topico;
     private String descricao;
@@ -17,8 +17,8 @@ public class AulaDTO {
     }
 
     public AulaDTO(UUID id, UUID turma_id, Date data_hora, String topico, String descricao, Date criado_em, Date atualizado_em) {
-        this.id = id;
-        this.turma_id = turma_id;
+        this.id = id.toString();
+        this.turma_id = turma_id.toString();
         this.data_hora = data_hora;
         this.topico = topico;
         this.descricao = descricao;
@@ -26,19 +26,19 @@ public class AulaDTO {
         this.atualizado_em = atualizado_em;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public UUID getTurma_id() {
+    public String getTurma_id() {
         return turma_id;
     }
 
-    public void setTurma_id(UUID turma_id) {
+    public void setTurma_id(String turma_id) {
         this.turma_id = turma_id;
     }
 

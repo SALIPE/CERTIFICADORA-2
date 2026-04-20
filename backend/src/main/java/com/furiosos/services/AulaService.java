@@ -36,7 +36,7 @@ public class AulaService {
         }
 
         // Validar se turma existe e está ATIVA
-        Optional<Turma> turmaOpt = turmaRepository.findById(aulaDTO.getTurma_id());
+        Optional<Turma> turmaOpt = turmaRepository.findById(UUID.fromString(aulaDTO.getTurma_id()));
         if (!turmaOpt.isPresent()) {
             throw new ApiRequestException("Turma não encontrada");
         }
@@ -53,7 +53,7 @@ public class AulaService {
 
         Aula aula = new Aula();
         aula.setId(UUID.randomUUID());
-        aula.setTurma_id(aulaDTO.getTurma_id());
+        aula.setTurma_id(UUID.fromString(aulaDTO.getTurma_id()));
         aula.setData_hora(aulaDTO.getData_hora());
         aula.setTopico(aulaDTO.getTopico());
         aula.setDescricao(aulaDTO.getDescricao());
