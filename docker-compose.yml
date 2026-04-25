@@ -18,14 +18,14 @@ services:
         timeout: 5s
         retries: 5
         start_period: 10s
-  # app:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.run
-  #   depends_on:
-  #     - postgres
-  #   ports:
-  #     - 8080:8080
+  app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.run
+    depends_on:
+      - postgres
+    ports:
+      - 8080:8080
 
 volumes:
   postgres_data:
