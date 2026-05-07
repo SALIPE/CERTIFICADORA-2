@@ -8,7 +8,6 @@ import AdminLayout from './layouts/Admin';
 import AlunosLayout from './layouts/AlunosLayout';
 import AdminDashboard from './telas/admin/AdminDashboard';
 import TurmasMatriculadas from './telas/alunos/TurmasMatriculadas';
-import LandingPage from './telas/LandingPage';
 import LoginPage from './telas/Login';
 
 export const MySwal = withReactContent(Swal);
@@ -20,7 +19,7 @@ export default function App() {
     <HashRouter>
       <UserProvider>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
 
           <Route element={

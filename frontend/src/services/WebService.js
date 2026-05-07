@@ -1,5 +1,5 @@
 
-export const baseURL = process.env.REACT_APP_API_BASE_URL;
+export const baseURL = "http://localhost:8080/furiosos";
 
 
 function internalGet(url, headers) {
@@ -67,19 +67,13 @@ function getUrl(url) {
 export function getHeaders(url) {
     return {
         'Content-Type': 'application/json',
-        'Authorization': sessionStorage.getItem('user'),
+        'Authorization': "Bearer " + localStorage.getItem('user'),
     };
 }
 
-function isAuthenticate(response) {
-    if (response.status === 401 || response.status === 403) {
-        cleanStorage();
-        window.location.assign("/");
-    }
-}
 
 
 export function cleanStorage() {
-    sessionStorage.removeItem('user');
+    localStorage.removeItem('user');
 }
 
