@@ -61,13 +61,17 @@ O projeto requer instalação de dependências. Para visualizar o site:
 
 ## 💻 Tecnologias Utilizadas
 
+
 * **HTML5:** Para a estruturação semântica do conteúdo das páginas.
 * **CSS3:** Para a estilização e o design responsivo das interfaces.
-* **React JS:**
-* **Bootstrap:**
-* **Swagger:**
-* **Typescript:**
-
+* **React JS:** Para a construção da interface web utilizando componentes reutilizáveis e renderização dinâmica.
+* **Bootstrap:** Para auxiliar na estilização, responsividade e padronização visual da aplicação.
+* **Swagger:** Para documentação e testes das rotas da API desenvolvida no backend.
+* **TypeScript:** Para desenvolvimento com tipagem estática, aumentando a segurança, organização e manutenção do código.
+* **Node.js:** Para execução do ambiente backend da aplicação.
+* **Express.js:** Para criação e gerenciamento das rotas e serviços da API.
+* **Yarn:** Para gerenciamento das dependências do projeto.
+* **Git e GitHub:** Para versionamento e hospedagem do código-fonte.
 ---
 
 ## 📁 Estrutura do Projeto
@@ -217,7 +221,7 @@ Este projeto foi desenvolvido por:
 
 ## 🔗 Links
 
-* **Repositório no GitHub:** [**`[https://github.com/SALIPE/CERTIFICADORA-2.git]`**](`https://github.com/SALIPE/CERTIFICADORA-2.git`)
+* **Repositório no GitHub:** [**`Repositorio no Github`**](https://github.com/SALIPE/CERTIFICADORA-2.git)
 * **Vídeo de Apresentação (YouTube):** [**`[]`**](`[]`)
 
 ---
