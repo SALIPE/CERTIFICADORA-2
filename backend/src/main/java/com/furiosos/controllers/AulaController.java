@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping(value = "/furiosos/aulas")
 @Api(value = "API REST Aulas")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AulaController {
 
     @Autowired

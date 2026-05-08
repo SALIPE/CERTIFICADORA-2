@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping(value = "/furiosos/turmas")
 @Api(value = "API REST Turmas")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class TurmaController {
 
     @Autowired

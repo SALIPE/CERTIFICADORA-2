@@ -15,7 +15,8 @@ public class TurmaDTO {
     public TurmaDTO() {
     }
 
-    public TurmaDTO(UUID id, String nome, String descricao, String status, Date criado_em, Date atualizado_em) {
+    public TurmaDTO(UUID id, String nome, String descricao, String status, Date criado_em,
+            Date atualizado_em) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -47,6 +48,7 @@ public class TurmaDTO {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
 
     public String getStatus() {
         return status;

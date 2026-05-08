@@ -42,7 +42,7 @@ public class AulaService {
         }
 
         Turma turma = turmaOpt.get();
-        if (turma.getStatus() != StatusTurma.ATIVA) {
+        if (!turma.getStatus().equals(StatusTurma.ATIVA.toString())) {
             throw new ApiRequestException("Não é possível criar aula para turma " + turma.getStatus());
         }
 
@@ -57,6 +57,11 @@ public class AulaService {
         aula.setData_hora(aulaDTO.getData_hora());
         aula.setTopico(aulaDTO.getTopico());
         aula.setDescricao(aulaDTO.getDescricao());
+        if (aulaDTO.getStatus() != null) {
+            aula.setStatus(aulaDTO.getStatus());
+        } else {
+            aula.setStatus("PROGRAMADA");
+        }
         Date now = new Date();
         aula.setCriado_em(now);
         aula.setAtualizado_em(now);
@@ -113,6 +118,10 @@ public class AulaService {
             aula.setDescricao(aulaDTO.getDescricao());
         }
 
+        if (aulaDTO.getStatus() != null) {
+            aula.setStatus(aulaDTO.getStatus());
+        }
+
         aula.setAtualizado_em(new Date());
 
         Aula updated = aulaRepository.save(aula);
@@ -135,6 +144,7 @@ public class AulaService {
                 aula.getData_hora(),
                 aula.getTopico(),
                 aula.getDescricao(),
+                aula.getStatus(),
                 aula.getCriado_em(),
                 aula.getAtualizado_em());
     }

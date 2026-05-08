@@ -8,6 +8,8 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -35,6 +37,10 @@ public class Aula implements Serializable {
     private String topico;
     private String descricao;
 
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "status_aula")
+    private StatusAula status;
+
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date criado_em;
 
@@ -51,7 +57,8 @@ public class Aula implements Serializable {
     public Aula() {
     }
 
-    public Aula(UUID id, UUID turma_id, Date data_hora, String topico, String descricao, Date criado_em, Date atualizado_em) {
+    public Aula(UUID id, UUID turma_id, Date data_hora, String topico, String descricao, Date criado_em,
+            Date atualizado_em) {
         this.id = id;
         this.turma_id = turma_id;
         this.data_hora = data_hora;
@@ -131,5 +138,19 @@ public class Aula implements Serializable {
 
     public void setPresenças(List<PresencaAluno> presenças) {
         this.presenças = presenças;
+    }
+
+    public String getStatus() {
+        return status != null ? status.toString() : null;
+    }
+
+    public void setStatus(String status) {
+        if (status != null) {
+            this.status = StatusAula.valueOf(status.toUpperCase());
+        }
+    }
+
+    public enum StatusAula {
+        PROGRAMADA, REALIZADA, CANCELADA
     }
 }

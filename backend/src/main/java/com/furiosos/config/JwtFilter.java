@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,10 +19,16 @@ import com.furiosos.utils.AuthUtils;
 public class JwtFilter extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
         String requestURI = request.getRequestURI();
+
+        // Allow OPTIONS requests for CORS preflight
+        if ("OPTIONS".equals(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // Exceções: endpoints que não precisam de autenticação
         if (requestURI.contains("/furiosos/login") || requestURI.contains("/furiosos/health")) {
@@ -29,7 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        // Se for requisição para /api/*, validar token
+        // Se for requisição para /furiosos/*, validar token
         if (requestURI.startsWith("/furiosos/")) {
             try {
                 String authHeader = request.getHeader("Authorization");

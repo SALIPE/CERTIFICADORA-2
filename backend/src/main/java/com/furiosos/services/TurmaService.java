@@ -30,16 +30,18 @@ public class TurmaService {
             throw new ApiRequestException("Nome da turma é obrigatório");
         }
 
+        Date now = new Date();
+
         Turma turma = new Turma();
         turma.setId(UUID.randomUUID());
         turma.setNome(turmaDTO.getNome());
         turma.setDescricao(turmaDTO.getDescricao());
-        turma.setStatus(StatusTurma.ATIVA);
-        Date now = new Date();
+        turma.setStatus(turmaDTO.getStatus().toUpperCase());
         turma.setCriado_em(now);
         turma.setAtualizado_em(now);
 
-        Turma saved = turmaRepository.save(turma);
+        Turma saved = turmaRepository.inserirTurma(turmaDTO.getNome(),
+                turmaDTO.getDescricao(),turmaDTO.getStatus().toUpperCase());
         return convertToDTO(saved);
     }
 
@@ -72,7 +74,7 @@ public class TurmaService {
         }
         if (turmaDTO.getStatus() != null) {
             try {
-                turma.setStatus(StatusTurma.valueOf(turmaDTO.getStatus()));
+                turma.setStatus(turmaDTO.getStatus().toUpperCase());
             } catch (IllegalArgumentException e) {
                 throw new ApiRequestException("Status inválido. Use: ATIVA, CONCLUIDA, CANCELADA");
             }
@@ -122,7 +124,7 @@ public class TurmaService {
                 turma.getId(),
                 turma.getNome(),
                 turma.getDescricao(),
-                turma.getStatus().toString(),
+                turma.getStatus(),
                 turma.getCriado_em(),
                 turma.getAtualizado_em());
     }

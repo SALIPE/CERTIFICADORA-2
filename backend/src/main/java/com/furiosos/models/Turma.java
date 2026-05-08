@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -24,14 +25,12 @@ public class Turma implements Serializable {
     @Id
     private UUID id;
     private String nome;
-    private String descricao;
-
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "status_turma")
     private StatusTurma status;
-
+    private String descricao;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date criado_em;
-
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date atualizado_em;
 
@@ -41,7 +40,8 @@ public class Turma implements Serializable {
     public Turma() {
     }
 
-    public Turma(UUID id, String nome, String descricao, StatusTurma status, Date criado_em, Date atualizado_em) {
+    public Turma(UUID id, String nome, String descricao, StatusTurma status, Date criado_em,
+            Date atualizado_em) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -74,12 +74,15 @@ public class Turma implements Serializable {
         this.descricao = descricao;
     }
 
-    public StatusTurma getStatus() {
-        return status;
+
+    public String getStatus() {
+        return status != null ? status.toString() : null;
     }
 
-    public void setStatus(StatusTurma status) {
-        this.status = status;
+    public void setStatus(String status) {
+        if (status != null) {
+            this.status = StatusTurma.valueOf(status.toUpperCase());
+        }
     }
 
     public Date getCriado_em() {
@@ -110,4 +113,3 @@ public class Turma implements Serializable {
         ATIVA, CONCLUIDA, CANCELADA
     }
 }
-

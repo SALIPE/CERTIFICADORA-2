@@ -10,18 +10,21 @@ public class AulaDTO {
     private Date data_hora;
     private String topico;
     private String descricao;
+    private String status;
     private Date criado_em;
     private Date atualizado_em;
 
     public AulaDTO() {
     }
 
-    public AulaDTO(UUID id, UUID turma_id, Date data_hora, String topico, String descricao, Date criado_em, Date atualizado_em) {
+    public AulaDTO(UUID id, UUID turma_id, Date data_hora, String topico, String descricao, String status,
+            Date criado_em, Date atualizado_em) {
         this.id = id.toString();
         this.turma_id = turma_id.toString();
         this.data_hora = data_hora;
         this.topico = topico;
         this.descricao = descricao;
+        this.status = status;
         this.criado_em = criado_em;
         this.atualizado_em = atualizado_em;
     }
@@ -64,6 +67,14 @@ public class AulaDTO {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Date getCriado_em() {

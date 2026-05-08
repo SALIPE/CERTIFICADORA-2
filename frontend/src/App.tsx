@@ -7,6 +7,7 @@ import { UserProvider } from './contexts/UserContext';
 import AdminLayout from './layouts/Admin';
 import AlunosLayout from './layouts/AlunosLayout';
 import AdminDashboard from './telas/admin/AdminDashboard';
+import AulaCreateEdit from './telas/admin/AulaCreateEdit';
 import TurmasMatriculadas from './telas/alunos/TurmasMatriculadas';
 import LoginPage from './telas/Login';
 
@@ -28,6 +29,7 @@ export default function App() {
             </ProtectedRoute>
           }>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/aulas/:turmaId" element={<AulaCreateEdit />} />
           </Route>
 
           <Route element={
