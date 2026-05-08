@@ -1,5 +1,6 @@
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/css/images/icon.png'; 
 import '../assets/css/LandingPage.css';
 
 export default function LandingPage() {
@@ -7,116 +8,173 @@ export default function LandingPage() {
 
   return (
     <div className="admin-landing-page">
-      <Container className="py-5">
+      <nav className="custom-navbar">
+        <img src={logo} alt="Logo Furiosos" className="nav-logo-img" onClick={() => navigate('/')} />
+        <button className="btn-login-nav" onClick={() => navigate('/login')}>
+          <span>🔒</span> LOGIN
+        </button>
+      </nav>
+
+      <Container>
         <header className="text-center mb-5">
-          <h1 className="brand-name">Furiosos Kids</h1>
-          <p className="brand-subtitle">Formando pequenos atletas, construindo grandes futuros</p>
+          <h1 className="brand-name" style={{color: 'white', fontWeight: 900, fontSize: '2.5rem'}}>FURIOSOS KIDS</h1>
+          <p className="brand-subtitle" style={{fontWeight: 700, fontSize: '1rem'}}>FORMANDO PEQUENOS ATLETAS, CONSTRUINDO GRANDES FUTUROS</p>
         </header>
 
-        <Row className="g-4 mb-5">
-          {/* O que é Cheerleading */}
-          <Col lg={6}>
-            <div className="info-card h-100">
-              <h2 className="info-title">O que é Cheerleading?</h2>
-              <div className="info-body">
-                <p>
-                  O Cheerleading é um esporte de equipe que combina elementos de <strong>ginástica, acrobacias (stunts), saltos e dança</strong>. 
-                  Exige muita confiança, sincronismo e força física.
-                </p>
-                <p>
-                  <strong>No Brasil:</strong> A modalidade cresceu nas universidades e hoje o país é referência na América Latina, 
-                  com seleções competitivas que disputam o mundial em Orlando (EUA).
-                </p>
+        <section className="white-section-card">
+          <h2 className="section-header-title">O que é Cheerleading?</h2>
+          <Row className="g-4 mb-4">
+            <Col md={4}>
+              <div className="skill-item">
+                <div className="skill-icon-circle bg-orange">🤸</div>
+                <div className="skill-text">
+                  <h6>Acrobacias</h6>
+                  <p>Movimentos que exigem força, equilíbrio e muita técnica.</p>
+                </div>
+              </div>
+            </Col>
+            <Col md={4}>
+              <div className="skill-item">
+                <div className="skill-icon-circle bg-dark-blue">💃</div>
+                <div className="skill-text">
+                  <h6>Dança</h6>
+                  <p>Coreografias cheias de energia e sincronismo.</p>
+                </div>
+              </div>
+            </Col>
+            <Col md={4}>
+              <div className="skill-item">
+                <div className="skill-icon-circle bg-orange">💪</div>
+                <div className="skill-text">
+                  <h6>Força e Confiança</h6>
+                  <p>Desenvolvimento físico e mental dentro e fora do esporte.</p>
+                </div>
+              </div>
+            </Col>
+          </Row>
+
+          <div className="dark-project-banner">
+            <Row className="align-items-center">
+              <Col lg={6} className="project-info-text pe-lg-4">
+                <h3>SOBRE O PROJETO</h3>
+                <p>Fundado em <strong>2018</strong>, o Furiosos Kids é o projeto social da faculdade UTFPR em Cornélio Procópio. Atendemos crianças da comunidade, ensinando os valores do esporte.</p>
+                <p>Atualmente, o time é <strong>Campeão do Cheerfest</strong>, um dos campeonatos mais prestigiados da modalidade!</p>
+              </Col>
+              <Col lg={6}>
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="stat-item">
+                    <span className="stat-icon">📅</span>
+                    <span className="stat-title">DESDE</span>
+                    <span className="stat-value">2018</span>
+                    <span className="stat-desc">Transformando vidas</span>
+                  </div>
+                  <div className="stat-divider" />
+                  <div className="stat-item">
+                    <span className="stat-icon">🏆</span>
+                    <span className="stat-title">CAMPEÃO</span>
+                    <span className="stat-value">CHEERFEST</span>
+                    <span className="stat-desc">Um dos maiores títulos</span>
+                  </div>
+                  <div className="stat-divider" />
+                  <div className="stat-item">
+                    <span className="stat-icon">👥</span>
+                    <span className="stat-title">COMUNIDADE</span>
+                    <span className="stat-value">+100</span>
+                    <span className="stat-desc">Crianças atendidas</span>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </div>
+
+          <h2 className="section-header-title">Quadro de Honra</h2>
+          <Row className="g-4 mb-4">
+            <Col md={6}>
+              <div className="honor-card-bordered">
+                <div style={{fontSize: '3.5rem'}}>🏆</div>
+                <div className="flex-grow-1">
+                  <span className="fw-bold text-uppercase small" style={{opacity: 0.6, fontSize: '0.7rem'}}>Cheerfest International</span>
+                  <h4 className="honor-rank-title">Campeão (Kids)</h4>
+                  <div className="year-badge-dark">2025</div>
+                </div>
+              </div>
+            </Col>
+            <Col md={6}>
+              <div className="honor-card-bordered">
+                <div style={{fontSize: '3.5rem'}}>🏅</div>
+                <div className="flex-grow-1">
+                  <span className="fw-bold text-uppercase small" style={{opacity: 0.6, fontSize: '0.7rem'}}>Cheer Magic Champions</span>
+                  <h4 className="honor-rank-title">Pódio Nacional</h4>
+                  <div className="year-badge-dark">2024</div>
+                </div>
+              </div>
+            </Col>
+          </Row>
+
+          <div className="video-banner-section">
+            <div className="video-banner-content">
+              <h2>
+                VEJA NOSSAS ATLETAS <br />
+                <span className="highlight">EM AÇÃO!</span>
+              </h2>
+              <p>Paixão, dedicação e união que fazem a diferença.</p>
+            </div>
+            <div 
+              className="video-thumb-container" 
+              onClick={() => window.open("https://www.youtube.com/watch?v=WN2uZYWOCxs", "_blank")}
+            >
+              <img 
+                src="https://img.youtube.com/vi/WN2uZYWOCxs/maxresdefault.jpg" 
+                alt="Thumbnail Video" 
+                className="video-thumb-img" 
+              />
+              <div className="play-button-overlay">
+                <div className="play-icon-inner"></div>
               </div>
             </div>
-          </Col>
+          </div>
 
-          {/* O Projeto Furiosos Kids */}
-          <Col lg={6}>
-            <div className="info-card h-100">
-              <h2 className="info-title">Sobre o Projeto</h2>
-              <div className="info-body">
-                <p>
-                  Fundado em <strong>2018</strong>, o Furiosos Kids é o projeto social da faculdade UTFPR em Cornélio Procópio. 
-                  Atendemos crianças da comunidade, ensinando os valores do esporte.
-                </p>
-                <p>
-                  Atualmente, o time é <strong>Campeão do Cheerfest</strong>, um dos campeonatos mais prestigiados da modalidade!
-                </p>
+          <footer className="contact-footer-banner">
+            <div className="contact-title-group">
+              <h2>ENTRE EM CONTATO</h2>
+              <div className="orange-line"></div>
+            </div>
+
+            <div className="contact-items-group">
+              <div className="contact-item">
+                <a href="https://www.instagram.com/_furiosos_foxes_/" target="_blank" rel="noopener noreferrer" className="contact-link">
+                  <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" className="contact-icon-img" />
+                </a>
+                <div className="contact-text-info">
+                  <span>INSTAGRAM</span>
+                  <p>@_furiosos_foxes_</p>
+                </div>
+              </div>
+
+              <div className="contact-divider-vertical"></div>
+
+              <div className="contact-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/484/484167.png" alt="Localização" className="contact-icon-img" />
+                <div className="contact-text-info">
+                  <span>LOCALIZAÇÃO</span>
+                  <p>UTFPR - CP</p>
+                </div>
+              </div>
+
+              <div className="contact-divider-vertical"></div>
+
+              <div className="contact-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/281/281769.png" alt="Email" className="contact-icon-img" />
+                <div className="contact-text-info">
+                  <span>E-MAIL</span>
+                  <p>contato@furiosos.com</p>
+                </div>
               </div>
             </div>
-          </Col>
-        </Row>
-
-        {/* Nossas Conquistas */}
-        <Row className="mb-5">
-          <Col>
-            <div className="info-card">
-              <h2 className="info-title text-center w-100">Quadro de Honra</h2>
-              <ul className="list-unstyled text-center mt-3">
-                <li className="mb-2">🏆 <strong>Cheerfest International</strong> - Campeão (Kids)</li>
-                <li className="mb-2">🏅 <strong>Cheer Magic Champions</strong> - Pódio Nacional</li>
-                
-              </ul>
-            </div>
-          </Col>
-        </Row>
-
-        {/* Galeria de Elite - Links Youtube */}
-        <h3 className="text-center mb-4 motto" style={{ fontSize: '1.8rem' }}>Conheça nossas atletas</h3>
-        <Row className="g-4 mb-5 justify-content-center">
-          <Col md={6}>
-            <div className="info-card text-center">
-              <h3 className="card-title">Cheerfest 2025</h3>
-              <p className="small">Arena Legacy 2025 - All Star Sub12 Level 1 Furiosos Kids</p>
-              <Button 
-                variant="outline-primary" 
-                className="btn-primary w-100" 
-                href="https://www.youtube.com/watch?v=WN2uZYWOCxs" 
-                target="_blank"
-              >
-                Assistir Apresentação
-              </Button>
-            </div>
-          </Col>
-        </Row>
-
-        {/* Contato e Redes */}
-        <Row className="justify-content-center mb-5">
-          <Col md={8}>
-            <div className="login-container p-4 text-center">
-              <h3 className="login-title mb-4">Entre em contato</h3>
-              <Row>
-                <Col sm={4}>
-                  <p className="motto">Instagram</p>
-                  <a 
-                    href="https://www.instagram.com/_furiosos_foxes_/" 
-                    target="_blank" 
-                    rel="noreferrer"
-                      >
-                    @_furiosos_foxes_
-                  </a>
-                </Col>
-                <Col sm={4}>
-                  <p className="motto">Localização</p>
-                  <p className="small">UTFPR - Cornélio Procópio</p>
-                </Col>
-                <Col sm={4}>
-                  <p className="motto">E-mail</p>
-                  <p className="small">contato@furiosos.com</p>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-        </Row>
-
-        <div className="text-center">
-          <Button 
-            className="btn-action px-5 py-3" 
-            onClick={() => navigate('/login')}
-          >
-            Login
-          </Button>
+          </footer>
+        </section>
+        <div className="copyright-footer">
+          Furiosos Kids © 2025 - Todos os direitos reservados.
         </div>
       </Container>
     </div>
