@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.furiosos.dto.UsuarioCreateDTO;
+import com.furiosos.dto.UsuarioDTO;
 import com.furiosos.exceptions.ApiRequestException;
 import com.furiosos.models.User;
 import com.furiosos.repository.UserRepository;
@@ -23,6 +26,18 @@ public class UserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public List<UsuarioDTO> findAlunos() {
+        return userRepository.findAlunos().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public UsuarioDTO create(UsuarioCreateDTO dto) {
+        String hashedPassword = passwordEncoder.encode(dto.getSenha());
+        User saved = userRepository.createUsuario(dto.getNome(), dto.getEmail(), hashedPassword, dto.getPerfil());
+        return convertToDTO(saved);
     }
 
     public Optional<User> findById(UUID id) {
@@ -55,5 +70,13 @@ public class UserService {
 
     public boolean checkPassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
+    private UsuarioDTO convertToDTO(User user) {
+        return new UsuarioDTO(
+                user.getId().toString(),
+                user.getNome(),
+                user.getEmail(),
+                user.getPerfil());
     }
 }
