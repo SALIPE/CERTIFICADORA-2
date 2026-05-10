@@ -110,6 +110,7 @@ export default function AlunoCreateEdit() {
                                 <th>Nome</th>
                                 <th>Email</th>
                                 <th>Perfil</th>
+                                <th>Matrícula</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -118,6 +119,15 @@ export default function AlunoCreateEdit() {
                                     <td><strong>{aluno.nome}</strong></td>
                                     <td>{aluno.email}</td>
                                     <td>{aluno.perfil}</td>
+                                    <td>
+                                        <Button
+                                            variant="info"
+                                            size="sm"
+                                            onClick={() => navigate(`/admin/matriculas/${aluno.usuario_id}`, { state: { alunoNome: aluno.nome } })}
+                                        >
+                                            Gerenciar
+                                        </Button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

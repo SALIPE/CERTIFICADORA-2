@@ -9,6 +9,7 @@ import AlunosLayout from './layouts/AlunosLayout';
 import AdminDashboard from './telas/admin/AdminDashboard';
 import AlunoCreateEdit from './telas/admin/AlunoCreateEdit';
 import AulaCreateEdit from './telas/admin/AulaCreateEdit';
+import MatriculaAluno from './telas/admin/MatriculaAluno';
 import TurmasMatriculadas from './telas/alunos/TurmasMatriculadas';
 import LandingPage from './telas/LandingPage';
 import LoginPage from './telas/Login';
@@ -33,6 +34,8 @@ export default function App() {
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/aulas/:turmaId" element={<AulaCreateEdit />} />
             <Route path="/admin/alunos" element={<AlunoCreateEdit />} />
+            <Route path="/admin/alunos/" element={<AlunoCreateEdit />} />
+            <Route path="/admin/matriculas/:alunoId" element={<MatriculaAluno />} />
           </Route>
 
           <Route element={

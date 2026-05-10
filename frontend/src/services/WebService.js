@@ -21,6 +21,14 @@ function internalPost(url, body, isJson, headers) {
     return fetch(getUrl(url), requestOptions)
 }
 
+function internalDelete(url, headers) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers
+    };
+    return fetch(getUrl(url), requestOptions)
+}
+
 export async function get(url) {
     return internalGet(url, getHeaders(url))
         .then(handleJsonResponse)
@@ -44,9 +52,13 @@ export async function postNoResponse(url, body) {
         })
 }
 
+export async function del(url) {
+    return internalDelete(url, getHeaders(url))
+        .then(handleJsonResponse)
+}
+
 
 async function handleJsonResponse(response) {
-    // isAuthenticate(response)
     if (!response.ok) {
         const error = await response.json()
         console.error(error)

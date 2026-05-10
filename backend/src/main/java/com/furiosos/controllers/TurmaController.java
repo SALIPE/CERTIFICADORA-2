@@ -81,13 +81,4 @@ public class TurmaController {
         return ResponseEntity.status(HttpStatus.OK).body(updated);
     }
 
-    @DeleteMapping("/{id}")
-    @ApiOperation(value = "Deleta uma turma (apenas ADMIN)")
-    public ResponseEntity<String> delete(@PathVariable UUID id) {
-        if (!AuthUtils.isAdmin()) {
-            throw new ApiRequestException("Apenas administradores podem deletar turmas");
-        }
-        turmaService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Turma deletada com sucesso");
-    }
 }

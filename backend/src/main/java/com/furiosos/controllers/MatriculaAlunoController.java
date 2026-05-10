@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.furiosos.dto.MatriculaAlunoDTO;
+import com.furiosos.dto.TextResponse;
 import com.furiosos.exceptions.ApiRequestException;
 import com.furiosos.services.MatriculaAlunoService;
 import com.furiosos.utils.AuthUtils;
@@ -62,7 +63,7 @@ public class MatriculaAlunoController {
 
     @DeleteMapping
     @ApiOperation(value = "Cancela a matrícula de um aluno em uma turma (apenas ADMIN)")
-    public ResponseEntity<String> cancelarMatricula(
+    public ResponseEntity<TextResponse> cancelarMatricula(
             @RequestParam String alunoId,
             @RequestParam String turmaId) {
         if (!AuthUtils.isAdmin()) {
@@ -71,6 +72,6 @@ public class MatriculaAlunoController {
         matriculaService.cancelarMatricula(
                 UUID.fromString(alunoId),
                 UUID.fromString(turmaId));
-        return ResponseEntity.status(HttpStatus.OK).body("Matrícula cancelada com sucesso");
+        return ResponseEntity.status(HttpStatus.OK).body(new TextResponse("Matrícula cancelada com sucesso"));
     }
 }

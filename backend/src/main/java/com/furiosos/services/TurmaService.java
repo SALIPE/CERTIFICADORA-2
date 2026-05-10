@@ -85,22 +85,6 @@ public class TurmaService {
         return convertToDTO(updated);
     }
 
-    public void delete(UUID id) {
-        Optional<Turma> turmaOpt = turmaRepository.findById(id);
-        if (!turmaOpt.isPresent()) {
-            throw new ApiRequestException("Turma não encontrada");
-        }
-
-        Turma turma = turmaOpt.get();
-
-        // Validar se turma tem aulas ativas
-        long aulasAtivas = aulaRepository.findByTurma_id(id).size();
-        if (aulasAtivas > 0) {
-            throw new ApiRequestException("Não é possível deletar turma com aulas. Aulas ativas: " + aulasAtivas);
-        }
-
-        turmaRepository.deleteById(id);
-    }
 
     public List<TurmaDTO> findByStatus(String status) {
         try {
