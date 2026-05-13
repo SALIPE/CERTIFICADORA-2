@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.furiosos.dto.AulaDTO;
+import com.furiosos.dto.TextResponse;
 import com.furiosos.exceptions.ApiRequestException;
 import com.furiosos.services.AulaService;
 import com.furiosos.utils.AuthUtils;
@@ -63,7 +64,7 @@ public class AulaController {
         return ResponseEntity.status(HttpStatus.OK).body(aulas);
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     @ApiOperation(value = "Atualiza uma aula (apenas ADMIN)")
     public ResponseEntity<AulaDTO> update(@PathVariable UUID id, @RequestBody AulaDTO aulaDTO) {
         if (!AuthUtils.isAdmin()) {
@@ -75,11 +76,11 @@ public class AulaController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Deleta uma aula (apenas ADMIN)")
-    public ResponseEntity<String> delete(@PathVariable UUID id) {
+    public ResponseEntity<TextResponse> delete(@PathVariable UUID id) {
         if (!AuthUtils.isAdmin()) {
             throw new ApiRequestException("Apenas administradores podem deletar aulas");
         }
         aulaService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Aula deletada com sucesso");
+        return ResponseEntity.status(HttpStatus.OK).body(new TextResponse("Aula deletada com sucesso"));
     }
 }

@@ -8,6 +8,7 @@ export default function AlunoCreateEdit() {
     const navigate = useNavigate();
 
     const [alunos, setAlunos] = useState<Usuario[]>([]);
+    const [admins, setAdmins] = useState<Usuario[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
@@ -21,6 +22,7 @@ export default function AlunoCreateEdit() {
 
     useEffect(() => {
         fetchAlunos();
+        fetchAdmins();
     }, []);
 
     const fetchAlunos = async () => {
@@ -31,6 +33,20 @@ export default function AlunoCreateEdit() {
             setAlunos(response || []);
         } catch (error) {
             setError('Erro ao buscar alunos');
+            console.error('Erro:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchAdmins = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await get(`/list-admins`);
+            setAdmins(response || []);
+        } catch (error) {
+            setError('Erro ao buscar admins');
             console.error('Erro:', error);
         } finally {
             setLoading(false);
@@ -134,6 +150,29 @@ export default function AlunoCreateEdit() {
                     </Table>
                 </div>
             )}
+            <h4>Administradores</h4>
+
+            <div className="table-responsive">
+                <Table striped bordered hover className="align-middle">
+                    <thead className="table-dark">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Perfil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {admins.map((aluno) => (
+                            <tr key={aluno.usuario_id}>
+                                <td><strong>{aluno.nome}</strong></td>
+                                <td>{aluno.email}</td>
+                                <td>{aluno.perfil}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            </div>
+
 
             <Modal show={showModal} onHide={handleCloseModal} centered>
                 <Modal.Header closeButton>

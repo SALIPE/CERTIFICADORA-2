@@ -16,20 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.furiosos.dto.LoginRequestDTO;
 import com.furiosos.dto.LoginResponseDTO;
-import com.furiosos.repository.UserRepository;
+import com.furiosos.dto.TextResponse;
+import com.furiosos.dto.UsuarioDTO;
 import com.furiosos.services.AuthService;
 import com.furiosos.services.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/furiosos")
 @Api(value = "API REST Users")
 @CrossOrigin(origins = "*")
 public class UserController {
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
     AuthService authService;
@@ -40,6 +40,13 @@ public class UserController {
     @GetMapping("/health")
     public ResponseEntity<String> health() {
         return ResponseEntity.status(HttpStatus.OK).body("API Furiosos Kids Health");
+    }
+    
+    @GetMapping("/list-admins")
+    @ApiOperation(value = "Lista todos os admins")
+    public ResponseEntity<List<UsuarioDTO>> findAdmin() {
+        List<UsuarioDTO> alunos = userService.findAdmins();
+        return ResponseEntity.status(HttpStatus.OK).body(alunos);
     }
 
     @PostMapping("/login")
@@ -52,8 +59,8 @@ public class UserController {
     // User operations
     @DeleteMapping("/users/{id}")
     @ApiOperation(value = "Deleta um usuário pelo ID")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
+    public ResponseEntity<TextResponse> deleteUser(@PathVariable UUID id) {
         userService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.OK).body(new TextResponse("OK"));
     }
 }

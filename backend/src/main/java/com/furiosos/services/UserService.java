@@ -33,6 +33,12 @@ public class UserService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
+    
+    public List<UsuarioDTO> findAdmins() {
+        return userRepository.findAdmins().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
 
     public UsuarioDTO create(UsuarioCreateDTO dto) {
         String hashedPassword = passwordEncoder.encode(dto.getSenha());

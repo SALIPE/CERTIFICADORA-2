@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Container, Form, Modal, Spinner, Table } from 'react-bootstrap';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { get, post } from '../../services/WebService';
+import { del, get, post } from '../../services/WebService';
 import { Aula } from '../../types/Aula';
 
 export default function AulaCreateEdit() {
@@ -106,7 +106,7 @@ export default function AulaCreateEdit() {
     if (window.confirm('Tem certeza que deseja deletar esta aula?')) {
       try {
         setError(null);
-        await post(`/aulas/${aulaId}`);
+        await del(`/aulas/${aulaId}`);
         await fetchAulas();
       } catch (error) {
         setError('Erro ao deletar aula');

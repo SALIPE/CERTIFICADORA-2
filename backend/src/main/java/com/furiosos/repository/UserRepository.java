@@ -17,6 +17,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT u FROM User u WHERE u.perfil = 'ALUNO'")
     List<User> findAlunos();
+    
+    @Query("SELECT u FROM User u WHERE u.perfil = 'ADMIN'")
+    List<User> findAdmins();
 
     @Query(value = "INSERT INTO usuario (id, nome, email, senha_hash, perfil, criado_em, atualizado_em, ativo) VALUES (gen_random_uuid(), :nome, :email, :senha, CAST(:perfil AS perfil_usuario), NOW(), NOW(), true) RETURNING *", nativeQuery = true)
     User createUsuario(
