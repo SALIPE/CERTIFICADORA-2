@@ -35,8 +35,10 @@ export default function ProtectedRoute({
     // Redirecionar para o dashboard apropriado se tentar acessar rota de outro tipo
     if (user?.perfil === 'ADMIN') {
       return <Navigate to="/admin/dashboard" replace />;
-    } else {
+    } else if (user?.perfil === 'ALUNO') {
       return <Navigate to="/alunos/turmas" replace />;
+    } else {
+      return <Navigate to="/login" replace />;
     }
   }
 

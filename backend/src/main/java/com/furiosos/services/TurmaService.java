@@ -81,7 +81,7 @@ public class TurmaService {
         }
         turma.setAtualizado_em(new Date());
 
-        Turma updated = turmaRepository.save(turma);
+        Turma updated = turmaRepository.atualizarTurma(turma.getId(),turma.getNome(), turma.getDescricao(), turma.getStatus());
         return convertToDTO(updated);
     }
 

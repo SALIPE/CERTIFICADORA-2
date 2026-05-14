@@ -10,6 +10,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     nome: '',
@@ -36,6 +37,7 @@ export default function AdminDashboard() {
   };
 
   const handleOpenModal = () => {
+    setEditingId(null);
     setFormData({
       nome: '',
       descricao: '',
@@ -44,8 +46,19 @@ export default function AdminDashboard() {
     setShowModal(true);
   };
 
+  const handleEditModal = (turma: Turma) => {
+    setEditingId(turma.id);
+    setFormData({
+      nome: turma.nome,
+      descricao: turma.descricao,
+      status: turma.status,
+    });
+    setShowModal(true);
+  };
+
   const handleCloseModal = () => {
     setShowModal(false);
+    setEditingId(null);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -59,12 +72,15 @@ export default function AdminDashboard() {
   const handleCreateTurma = async () => {
     try {
       setError(null);
-      console.log(formData)
-      await post('/turmas', formData);
+      if (editingId) {
+        await post(`/turmas/${editingId}`, formData);
+      } else {
+        await post('/turmas', formData);
+      }
       await fetchTurmas();
       handleCloseModal();
     } catch (error) {
-      setError('Erro ao criar turma');
+      setError(editingId ? 'Erro ao atualizar turma' : 'Erro ao criar turma');
       console.error('Erro:', error);
     }
   };
@@ -124,9 +140,17 @@ export default function AdminDashboard() {
                     <Button
                       variant="primary"
                       size="sm"
+                      className="me-2"
                       onClick={() => handleGerenciarAulas(turma.id, turma.nome)}
                     >
                       Gerenciar Aulas
+                    </Button>
+                    <Button
+                      variant="warning"
+                      size="sm"
+                      onClick={() => handleEditModal(turma)}
+                    >
+                      Editar
                     </Button>
                   </td>
                 </tr>
@@ -138,7 +162,7 @@ export default function AdminDashboard() {
 
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Nova Turma</Modal.Title>
+          <Modal.Title>{editingId ? 'Editar Turma' : 'Nova Turma'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -187,7 +211,7 @@ export default function AdminDashboard() {
             Cancelar
           </Button>
           <Button variant="primary" onClick={handleCreateTurma}>
-            Criar Turma
+            {editingId ? 'Atualizar Turma' : 'Criar Turma'}
           </Button>
         </Modal.Footer>
       </Modal>
