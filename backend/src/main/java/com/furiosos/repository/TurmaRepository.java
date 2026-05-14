@@ -23,5 +23,12 @@ public interface TurmaRepository extends JpaRepository<Turma, UUID> {
             @Param("descricao") String descricao,
             @Param("status") String status
     );
+    
+    @Query(value = "INSERT INTO turma (id, nome, descricao, status, criado_em, atualizado_em) VALUES (gen_random_uuid(), :nome, :descricao, CAST(:status AS status_turma), NOW(), NOW()) RETURNING *", nativeQuery = true)
+    Turma atualizarTurma(
+            @Param("nome") String nome,
+            @Param("descricao") String descricao,
+            @Param("status") String status
+    );
 
 }

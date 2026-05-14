@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,7 +70,7 @@ public class TurmaController {
         return ResponseEntity.status(HttpStatus.OK).body(turmas);
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     @ApiOperation(value = "Atualiza uma turma (apenas ADMIN)")
     public ResponseEntity<TurmaDTO> update(@PathVariable UUID id, @RequestBody TurmaDTO turmaDTO) {
         if (!AuthUtils.isAdmin()) {
