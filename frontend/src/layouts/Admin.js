@@ -47,10 +47,9 @@ export default function AdminLayout() {
       <Container fluid className="flex-grow-1">
         <Outlet />
       </Container>
-      <footer className="bg-dark text-light text-center py-3 mt-auto">
-        Footer
+      <footer style={{ background: "#06164d" }} className="text-light text-center py-3 mt-auto">
       </footer>
-    </div>
+    </div >
   );
 }
 

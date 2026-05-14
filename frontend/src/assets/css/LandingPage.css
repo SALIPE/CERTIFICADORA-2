@@ -8,7 +8,7 @@ html {
   min-height: 100vh;
   background: #06164d;
   background: radial-gradient(circle at 10% 20%, rgba(255, 107, 0, 0.15) 0%, transparent 40%),
-              linear-gradient(180deg, #06164d 0%, #030d2d 100%);
+    linear-gradient(180deg, #06164d 0%, #030d2d 100%);
   font-family: 'Montserrat', sans-serif;
   color: white;
   padding-top: 100px;
@@ -136,8 +136,15 @@ html {
   flex-shrink: 0;
 }
 
-.bg-orange { background-color: #ff6b00; color: white; }
-.bg-dark-blue { background-color: #06164d; color: white; }
+.bg-orange {
+  background-color: #ff6b00;
+  color: white;
+}
+
+.bg-dark-blue {
+  background-color: #06164d;
+  color: white;
+}
 
 .skill-text h6 {
   font-weight: 900;
@@ -159,7 +166,7 @@ html {
   padding: 2.5rem;
   color: white;
   margin: 3rem 0;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
 }
 
 .project-info-text h3 {
@@ -193,11 +200,35 @@ html {
   margin: 0 8px;
 }
 
-.stat-item { text-align: center; flex: 1; }
-.stat-icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
-.stat-title { font-size: 0.75rem; font-weight: 700; opacity: 0.7; text-transform: uppercase; }
-.stat-value { font-size: 1.8rem; font-weight: 900; margin: 3px 0; display: block; }
-.stat-desc { font-size: 0.75rem; opacity: 0.6; }
+.stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.stat-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 900;
+  margin: 3px 0;
+  display: block;
+}
+
+.stat-desc {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
 
 .honor-card-bordered {
   background: white;
@@ -273,7 +304,7 @@ html {
   width: 45%;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
 
@@ -318,7 +349,7 @@ html {
 }
 
 .contact-footer-banner {
-  background: #030d2d;
+  background: #06164d;
   border-radius: 20px;
   padding: 20px 40px;
   margin-top: 25px;

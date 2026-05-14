@@ -48,8 +48,26 @@
 }
 
 .progress-bar {
-  background: linear-gradient(90deg, #007bff, #0056b3);
+  background: linear-gradient(90deg, #06164d, #0a4da6);
   border-radius: 4px;
+}
+
+/* Table Styling */
+.table-dark {
+  background-color: #06164d !important;
+}
+
+.table-dark th {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  background-color: #06164d !important;
+  border-color: #0a0f2e !important;
+}
+
+.table thead th {
+  background-color: #06164d !important;
+  color: #ffffff !important;
+  border-bottom: 2px solid #0a0f2e !important;
 }
 
 /* Volunteer Events Page */
@@ -68,7 +86,7 @@
 }
 
 .workshop-volunteer:hover {
-  border-color: #007bff;
+  border-color: #06164d;
 }
 
 .workshop-volunteer .badge {
@@ -78,17 +96,17 @@
 
 /* Buttons */
 .btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #06164d;
+  border-color: #06164d;
   font-weight: 500;
   transition: all 0.2s ease;
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
-  border-color: #0056b3;
+  background-color: #0a0f2e;
+  border-color: #0a0f2e;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 86, 179, 0.3);
+  box-shadow: 0 4px 12px rgba(6, 22, 77, 0.3);
 }
 
 .btn-warning {
@@ -139,8 +157,8 @@
 }
 
 .form-control:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  border-color: #06164d;
+  box-shadow: 0 0 0 0.2rem rgba(6, 22, 77, 0.25);
 }
 
 /* Alert Styles */

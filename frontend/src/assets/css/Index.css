@@ -132,6 +132,75 @@
     max-width: 100%;
 }
 
+/* Navbar Customization */
+.navbar, .custom-navbar {
+    background-color: #06164d !important;
+}
+
+.navbar-dark .navbar-brand,
+.navbar-dark .nav-link {
+    color: #ffffff !important;
+}
+
+.navbar-dark .nav-link:hover,
+.navbar-dark .nav-link.active {
+    color: #ff7a00 !important;
+}
+
+/* Table Header Customization */
+.table-dark,
+thead {
+    background-color: #06164d !important;
+}
+
+.table-dark th {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border-color: #0a0f2e !important;
+}
+
+.table thead th {
+    background-color: #06164d !important;
+    color: #ffffff !important;
+    border-bottom-color: #0a0f2e !important;
+}
+
+/* Footer Customization */
+footer,
+.footer,
+.copyright-footer {
+    background-color: #06164d !important;
+    color: #ffffff !important;
+}
+
+.contact-footer-banner,
+.contact-footer {
+    background-color: #06164d !important;
+}
+
+.contact-title-group h2,
+.footer h2,
+.footer h3 {
+    color: #ffffff !important;
+}
+
+.contact-title-group .orange-line,
+.footer .orange-line {
+    background-color: #ff7a00 !important;
+}
+
+.contact-divider-vertical {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.contact-link {
+    color: inherit !important;
+}
+
+.contact-link:hover {
+    opacity: 0.8 !important;
+}
+
 @keyframes glowing {
     0% {
         background-position: 0 0;

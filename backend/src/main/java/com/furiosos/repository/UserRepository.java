@@ -17,12 +17,20 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT u FROM User u WHERE u.perfil = 'ALUNO'")
     List<User> findAlunos();
-    
+
     @Query("SELECT u FROM User u WHERE u.perfil = 'ADMIN'")
     List<User> findAdmins();
 
     @Query(value = "INSERT INTO usuario (id, nome, email, senha_hash, perfil, criado_em, atualizado_em, ativo) VALUES (gen_random_uuid(), :nome, :email, :senha, CAST(:perfil AS perfil_usuario), NOW(), NOW(), true) RETURNING *", nativeQuery = true)
     User createUsuario(
+            @Param("nome") String nome,
+            @Param("email") String email,
+            @Param("senha") String senha,
+            @Param("perfil") String perfil);
+
+    @Query(value = "UPDATE usuario SET nome = :nome, email = :email, senha_hash = :senha, perfil = CAST(:perfil AS perfil_usuario), atualizado_em = NOW() WHERE id = :id RETURNING *", nativeQuery = true)
+    User atualizarUsuario(
+            @Param("id") UUID id,
             @Param("nome") String nome,
             @Param("email") String email,
             @Param("senha") String senha,

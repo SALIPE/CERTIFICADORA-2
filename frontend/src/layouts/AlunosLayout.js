@@ -13,7 +13,8 @@ export default function AlunosLayout() {
       <div className="content">
         <Outlet />
       </div>
-      footer
+      <footer style={{ background: "#06164d" }} className="text-light text-center py-3 mt-auto">
+      </footer>
     </div>
   );
 }

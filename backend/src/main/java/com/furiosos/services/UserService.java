@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 import com.furiosos.dto.UsuarioCreateDTO;
 import com.furiosos.dto.UsuarioDTO;
 import com.furiosos.exceptions.ApiRequestException;
+import com.furiosos.models.Turma;
 import com.furiosos.models.User;
 import com.furiosos.repository.UserRepository;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class UserService {
@@ -33,7 +35,7 @@ public class UserService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
-    
+
     public List<UsuarioDTO> findAdmins() {
         return userRepository.findAdmins().stream()
                 .map(this::convertToDTO)
@@ -43,6 +45,20 @@ public class UserService {
     public UsuarioDTO create(UsuarioCreateDTO dto) {
         String hashedPassword = passwordEncoder.encode(dto.getSenha());
         User saved = userRepository.createUsuario(dto.getNome(), dto.getEmail(), hashedPassword, dto.getPerfil());
+        return convertToDTO(saved);
+    }
+
+    public UsuarioDTO editar(UUID id, UsuarioCreateDTO dto) {
+        Optional<User> alunosaved = userRepository.findById(id);
+        if (!alunosaved.isPresent()) {
+            throw new ApiRequestException("Aluno não encontrada");
+        }
+        String hashedPassword = alunosaved.get().getSenha_hash();
+        if (dto.getSenha() != null) {
+            hashedPassword = passwordEncoder.encode(dto.getSenha());
+        }
+
+        User saved = userRepository.atualizarUsuario(id, dto.getNome(), dto.getEmail(), hashedPassword, dto.getPerfil());
         return convertToDTO(saved);
     }
 

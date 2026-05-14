@@ -12,6 +12,7 @@ export default function AlunoCreateEdit() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
+    const [editingAlunoId, setEditingAlunoId] = useState<string | null>(null);
 
     const [formData, setFormData] = useState({
         nome: '',
@@ -54,6 +55,7 @@ export default function AlunoCreateEdit() {
     };
 
     const handleOpenModal = () => {
+        setEditingAlunoId(null);
         setFormData({
             nome: '',
             email: '',
@@ -63,8 +65,20 @@ export default function AlunoCreateEdit() {
         setShowModal(true);
     };
 
+    const handleEditAluno = (aluno: Usuario) => {
+        setEditingAlunoId(aluno.usuario_id);
+        setFormData({
+            nome: aluno.nome,
+            email: aluno.email,
+            senha: '',
+            perfil: aluno.perfil,
+        });
+        setShowModal(true);
+    };
+
     const handleCloseModal = () => {
         setShowModal(false);
+        setEditingAlunoId(null);
         setFormData({
             nome: '',
             email: '',
@@ -84,7 +98,11 @@ export default function AlunoCreateEdit() {
     const handleSaveAluno = async () => {
         try {
             setError(null);
-            await post(`/alunos`, formData);
+            if (editingAlunoId) {
+                await post(`/alunos/${editingAlunoId}`, formData);
+            } else {
+                await post(`/alunos`, formData);
+            }
             await fetchAlunos();
             handleCloseModal();
         } catch (error) {
@@ -126,7 +144,7 @@ export default function AlunoCreateEdit() {
                                 <th>Nome</th>
                                 <th>Email</th>
                                 <th>Perfil</th>
-                                <th>Matrícula</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -136,6 +154,14 @@ export default function AlunoCreateEdit() {
                                     <td>{aluno.email}</td>
                                     <td>{aluno.perfil}</td>
                                     <td>
+                                        <Button
+                                            variant="warning"
+                                            size="sm"
+                                            className="me-2"
+                                            onClick={() => handleEditAluno(aluno)}
+                                        >
+                                            Editar
+                                        </Button>
                                         <Button
                                             variant="info"
                                             size="sm"
@@ -176,7 +202,7 @@ export default function AlunoCreateEdit() {
 
             <Modal show={showModal} onHide={handleCloseModal} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Novo Aluno</Modal.Title>
+                    <Modal.Title>{editingAlunoId ? 'Editar Aluno' : 'Novo Aluno'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -234,7 +260,7 @@ export default function AlunoCreateEdit() {
                         Cancelar
                     </Button>
                     <Button variant="primary" onClick={handleSaveAluno}>
-                        Criar
+                        {editingAlunoId ? 'Atualizar' : 'Criar'}
                     </Button>
                 </Modal.Footer>
             </Modal>

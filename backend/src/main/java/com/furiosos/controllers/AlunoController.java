@@ -20,6 +20,8 @@ import com.furiosos.utils.AuthUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.UUID;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping(value = "/furiosos/alunos")
@@ -45,6 +47,16 @@ public class AlunoController {
         }
         UsuarioDTO created = userService.create(usuarioCreateDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+    
+    @PostMapping("/{id}")
+    @ApiOperation(value = "Editar um novo aluno (apenas ADMIN)")
+    public ResponseEntity<UsuarioDTO> editar(@PathVariable UUID id,@RequestBody UsuarioCreateDTO usuarioCreateDTO) {
+        if (!AuthUtils.isAdmin()) {
+            throw new ApiRequestException("Apenas administradores podem editar alunos");
+        }
+        UsuarioDTO edited = userService.editar(id,usuarioCreateDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(edited);
     }
 
 }
