@@ -1,4 +1,3 @@
-# CERTIFICADORA-2
 <h1 align="center">
     Projeto Furiosos Kids  ( Certificadora Da Competência 2 )
 </h1>
@@ -52,12 +51,43 @@ A plataforma Furiosos Kids contará com módulos voltados à gestão administrat
 * **Divulgação do Projeto:** Área institucional para apresentação do Furiosos Kids à comunidade.
 
 ---
-
 ## 🚀 Como Rodar
 
-O projeto requer instalação de dependências. Para visualizar o site:
+O projeto requer instalação das seguintes dependências:
 
----
+- **Docker**
+- **Node.js**
+- **Java**
+
+### Passo a passo
+
+1. **Gerar o arquivo `.jar` do backend**
+
+   ```bash
+   cd backend
+   ./build.sh
+   ```
+2. **Instalar dependências e iniciar o frontend**
+   ```bash
+   cd frontend
+   yarn
+   yarn start
+      ```
+3. **Subir a infraestrutura completa**
+   ```
+   docker compose up --build
+   ```
+4. **Abrir o Frontend e o Backend**
+
+   ```
+   Agora acesse no navegador
+   
+   http://localhost:8080/swagger-ui.html
+   http://localhost:3000
+   
+   ```
+  
+   
 
 ## 💻 Tecnologias Utilizadas
 
@@ -68,8 +98,6 @@ O projeto requer instalação de dependências. Para visualizar o site:
 * **Bootstrap:** Para auxiliar na estilização, responsividade e padronização visual da aplicação.
 * **Swagger:** Para documentação e testes das rotas da API desenvolvida no backend.
 * **TypeScript:** Para desenvolvimento com tipagem estática, aumentando a segurança, organização e manutenção do código.
-* **Node.js:** Para execução do ambiente backend da aplicação.
-* **Express.js:** Para criação e gerenciamento das rotas e serviços da API.
 * **Yarn:** Para gerenciamento das dependências do projeto.
 * **Git e GitHub:** Para versionamento e hospedagem do código-fonte.
 ---
@@ -222,7 +250,7 @@ Este projeto foi desenvolvido por:
 ## 🔗 Links
 
 * **Repositório no GitHub:** [**`Repositorio no Github`**](https://github.com/SALIPE/CERTIFICADORA-2.git)
-* **Vídeo de Apresentação (YouTube):** [**`[]`**](`[]`)
+* **Vídeo de Apresentação (YouTube):** [**`[Pitch - Certificadora 2]`**](https://youtu.be/_yrVUhuP23Q)
 
 ---
 
