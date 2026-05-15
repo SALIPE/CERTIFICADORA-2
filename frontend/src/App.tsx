@@ -1,4 +1,4 @@
-import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import './assets/css/Index.css';
@@ -46,7 +46,7 @@ export default function App() {
             <Route path="/alunos/turmas" element={<TurmasMatriculadas />} />
           </Route>
 
-          <Route path="*" element={<Navigate to="/" />} />
+          {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </Routes>
       </UserProvider>
     </HashRouter>

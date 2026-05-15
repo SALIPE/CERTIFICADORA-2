@@ -21,6 +21,7 @@ export default function ProtectedRoute({
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
+        console.log(parsedUser)
         console.log(!parsedUser)
         if (!parsedUser) navigate("/login");
 
@@ -37,8 +38,6 @@ export default function ProtectedRoute({
       return <Navigate to="/admin/dashboard" replace />;
     } else if (user?.perfil === 'ALUNO') {
       return <Navigate to="/alunos/turmas" replace />;
-    } else {
-      return <Navigate to="/login" replace />;
     }
   }
 
