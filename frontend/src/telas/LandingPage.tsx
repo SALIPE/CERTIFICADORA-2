@@ -72,7 +72,7 @@ export default function LandingPage() {
                   <div className="stat-item">
                     <span className="stat-icon">🏆</span>
                     <span className="stat-title">CAMPEÃO</span>
-                    <span className="stat-value">CHEERFEST</span>
+                    <span className="stat-value">CHEERMAGIC</span>
                     <span className="stat-desc">Um dos maiores títulos</span>
                   </div>
                   <div className="stat-divider" />
@@ -93,7 +93,7 @@ export default function LandingPage() {
               <div className="honor-card-bordered">
                 <div style={{fontSize: '3.5rem'}}>🏆</div>
                 <div className="flex-grow-1">
-                  <span className="fw-bold text-uppercase small" style={{opacity: 0.6, fontSize: '0.7rem'}}>Cheerfest International</span>
+                  <span className="fw-bold text-uppercase small" style={{opacity: 0.6, fontSize: '0.7rem'}}>Arena Cheer</span>
                   <h4 className="honor-rank-title">Campeão (Kids)</h4>
                   <div className="year-badge-dark">2025</div>
                 </div>
