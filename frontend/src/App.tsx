@@ -36,6 +36,7 @@ export default function App() {
           >
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/aulas/:turmaId" element={<AulaCreateEdit />} />
+            <Route path="/admin/aulas/:turmaId/:aulaId" element={<ControlePresencaAula />} />
             <Route path="/admin/alunos" element={<AlunoCreateEdit />} />
             <Route path="/admin/alunos/" element={<AlunoCreateEdit />} />
             <Route
