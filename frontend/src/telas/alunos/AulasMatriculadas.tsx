@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import {
   Alert,
   Button,
+  Card,
   Container,
   Form,
   Spinner,
   Table,
-  Card,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
@@ -22,8 +22,9 @@ interface Aula {
 }
 
 interface Turma {
-  id: string;
-  nome: string;
+  turma_id: string;
+  aluno_id: string;
+  turma_nome: string;
 }
 
 export default function AulasMatriculadas() {
@@ -61,7 +62,7 @@ export default function AulasMatriculadas() {
 
       // Busca as matrículas do aluno
       const responseMatriculas = await get(`/matriculas/aluno/${alunoId}`);
-
+      console.log(responseMatriculas)
       // Garante que se o backend retornar vazio ou um formato inesperado, o front não quebre
       const listaMatriculas = Array.isArray(responseMatriculas)
         ? responseMatriculas
@@ -74,32 +75,24 @@ export default function AulasMatriculadas() {
 
       // Mapeia as turmas tratando o objeto 'turma' de forma flexível
       const listaTurmas: Turma[] = listaMatriculas
-        .map((item: any) => {
-          const dadosTurma = item.turma || item;
-          return {
-            id: dadosTurma.id || dadosTurma.id_turma,
-            nome: dadosTurma.nome || "Turma sem Nome",
-          };
-        })
-        .filter((t) => t.id); // Remove registros fantasmas sem ID
 
       setTurmas(listaTurmas);
 
       // Busca as aulas de cada turma em paralelo
       const promessasAulas = listaTurmas.map(async (turma) => {
         try {
-          const responseAulas = await get(`/aulas/turma/${turma.id}`);
+          const responseAulas = await get(`/aulas/turma/${turma.turma_id}`);
           const aulasDaTurma = Array.isArray(responseAulas)
             ? responseAulas
             : [];
 
           return aulasDaTurma.map((aula: any) => ({
             ...aula,
-            turma_id: turma.id,
-            turma_nome: turma.nome,
+            turma_id: turma.turma_id,
+            turma_nome: turma.turma_nome,
           }));
         } catch (e) {
-          console.error(`Erro ao buscar aulas da turma ${turma.nome}:`, e);
+          console.error(`Erro ao buscar aulas da turma ${turma.turma_nome}:`, e);
           return [];
         }
       });
@@ -174,10 +167,10 @@ export default function AulasMatriculadas() {
                 value={turmaSelecionada}
                 onChange={(e) => setTurmaSelecionada(e.target.value)}
               >
-                <option value="TODAS">🌟 Todas as Minhas Turmas</option>
+                <option value="TODAS">Todas as Minhas Turmas</option>
                 {turmas.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {t.nome}
+                  <option key={t.turma_id} value={t.turma_id}>
+                    {t.turma_nome}
                   </option>
                 ))}
               </Form.Select>
