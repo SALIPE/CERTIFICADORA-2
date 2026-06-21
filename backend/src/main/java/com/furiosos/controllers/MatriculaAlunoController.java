@@ -47,7 +47,7 @@ public class MatriculaAlunoController {
     @ApiOperation(value = "Lista todas as turmas de um aluno (ALUNO vê apenas suas turmas)")
     public ResponseEntity<List<MatriculaAlunoDTO>> findTurmasByAluno(@PathVariable UUID alunoId) {
         // ALUNO pode ver apenas suas próprias matrículas
-        if (AuthUtils.isAluno() && !alunoId.equals(AuthUtils.getCurrentUserId())) {
+        if (AuthUtils.isAluno() && alunoId.equals(AuthUtils.getCurrentUserId())) {
             throw new ApiRequestException("Você pode visualizar apenas suas próprias matrículas");
         }
         List<MatriculaAlunoDTO> turmas = matriculaService.findTurmasByAluno(alunoId);
