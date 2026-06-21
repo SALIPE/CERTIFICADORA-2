@@ -122,6 +122,10 @@ export default function AulaCreateEdit() {
     return <span className={badgeClass}>{status}</span>;
   };
 
+  const handleGerenciarPresencas = (turmaId: string | undefined, aulaId: string) => {
+    navigate(`/admin/aulas/${turmaId}/${aulaId}`);
+  };
+
   return (
     <Container fluid className="admin-dashboard py-4">
       <div className="mb-4 d-flex justify-content-between align-items-center">
@@ -158,6 +162,7 @@ export default function AulaCreateEdit() {
                 <th>Status</th>
                 <th>Criado em</th>
                 <th>Ações</th>
+                <th>Presenças</th>
               </tr>
             </thead>
             <tbody>
@@ -183,6 +188,15 @@ export default function AulaCreateEdit() {
                       onClick={() => handleDeleteAula(aula.id)}
                     >
                       Deletar
+                    </Button>
+                  </td>
+                  <td>
+                    <Button
+                      variant="warning"
+                      size="sm"
+                      className="me-2"
+                      onClick={() => handleGerenciarPresencas(turmaId, aula.id)}>
+                      Presenças
                     </Button>
                   </td>
                 </tr>

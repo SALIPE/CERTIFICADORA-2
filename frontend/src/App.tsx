@@ -9,11 +9,12 @@ import AlunosLayout from "./layouts/AlunosLayout";
 import AdminDashboard from "./telas/admin/AdminDashboard";
 import AlunoCreateEdit from "./telas/admin/AlunoCreateEdit";
 import AulaCreateEdit from "./telas/admin/AulaCreateEdit";
+import ControlePresencaAula from "./telas/admin/ControlePresencaAula";
 import MatriculaAluno from "./telas/admin/MatriculaAluno";
+import AulasMatriculadas from "./telas/alunos/AulasMatriculadas";
 import TurmasMatriculadas from "./telas/alunos/TurmasMatriculadas";
 import LandingPage from "./telas/LandingPage";
 import LoginPage from "./telas/Login";
-import AulasMatriculadas from "./telas/alunos/AulasMatriculadas";
 
 export const MySwal = withReactContent(Swal);
 
@@ -36,6 +37,7 @@ export default function App() {
           >
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/aulas/:turmaId" element={<AulaCreateEdit />} />
+            <Route path="/admin/aulas/:turmaId/:aulaId" element={<ControlePresencaAula />} />
             <Route path="/admin/alunos" element={<AlunoCreateEdit />} />
             <Route path="/admin/alunos/" element={<AlunoCreateEdit />} />
             <Route
