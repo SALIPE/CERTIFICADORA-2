@@ -38,7 +38,7 @@ export default function TurmasMatriculadas() {
     try {
       setLoading(true);
       setError(null);
-      const response = await get(`/furiosos/matriculas/aluno/${alunoId}`);
+      const response = await get(`/matriculas/aluno/${alunoId}`);
       const lista = Array.isArray(response) ? response : [];
       setTurmas(lista);
     } catch (err) {

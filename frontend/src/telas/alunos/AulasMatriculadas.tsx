@@ -60,9 +60,7 @@ export default function AulasMatriculadas() {
       setError(null);
 
       // Busca as matrículas do aluno
-      const responseMatriculas = await get(
-        `/furiosos/matriculas/aluno/${alunoId}`,
-      );
+      const responseMatriculas = await get(`/matriculas/aluno/${alunoId}`);
 
       // Garante que se o backend retornar vazio ou um formato inesperado, o front não quebre
       const listaMatriculas = Array.isArray(responseMatriculas)
@@ -90,7 +88,7 @@ export default function AulasMatriculadas() {
       // Busca as aulas de cada turma em paralelo
       const promessasAulas = listaTurmas.map(async (turma) => {
         try {
-          const responseAulas = await get(`/furiosos/aulas/turma/${turma.id}`);
+          const responseAulas = await get(`/aulas/turma/${turma.id}`);
           const aulasDaTurma = Array.isArray(responseAulas)
             ? responseAulas
             : [];
