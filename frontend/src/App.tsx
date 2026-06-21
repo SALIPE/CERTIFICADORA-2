@@ -1,24 +1,24 @@
-import { HashRouter, Route, Routes } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-import './assets/css/Index.css';
-import ProtectedRoute from './components/ProtectedRoute';
-import { UserProvider } from './contexts/UserContext';
-import AdminLayout from './layouts/Admin';
-import AlunosLayout from './layouts/AlunosLayout';
-import AdminDashboard from './telas/admin/AdminDashboard';
-import AlunoCreateEdit from './telas/admin/AlunoCreateEdit';
-import AulaCreateEdit from './telas/admin/AulaCreateEdit';
-import ControlePresencaAula from './telas/admin/ControlePresencaAula';
-import MatriculaAluno from './telas/admin/MatriculaAluno';
-import TurmasMatriculadas from './telas/alunos/TurmasMatriculadas';
-import LandingPage from './telas/LandingPage';
-import LoginPage from './telas/Login';
+import { HashRouter, Route, Routes } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import "./assets/css/Index.css";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { UserProvider } from "./contexts/UserContext";
+import AdminLayout from "./layouts/Admin";
+import AlunosLayout from "./layouts/AlunosLayout";
+import AdminDashboard from "./telas/admin/AdminDashboard";
+import AlunoCreateEdit from "./telas/admin/AlunoCreateEdit";
+import AulaCreateEdit from "./telas/admin/AulaCreateEdit";
+import MatriculaAluno from "./telas/admin/MatriculaAluno";
+import TurmasMatriculadas from "./telas/alunos/TurmasMatriculadas";
+import LandingPage from "./telas/LandingPage";
+import LoginPage from "./telas/Login";
+import AulasMatriculadas from "./telas/alunos/AulasMatriculadas";
 
 export const MySwal = withReactContent(Swal);
 
 export default function App() {
-  document.title = 'Furiosos Kids';
+  document.title = "Furiosos Kids";
 
   return (
     <HashRouter>
@@ -27,33 +27,40 @@ export default function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
 
-          <Route element={
-            <ProtectedRoute requiredRole="ADMIN">
-              <AdminLayout />
-            </ProtectedRoute>
-          }>
+          <Route
+            element={
+              <ProtectedRoute requiredRole="ADMIN">
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/aulas/:turmaId" element={<AulaCreateEdit />} />
             <Route path="/admin/aulas/:turmaId/:aulaId" element={<ControlePresencaAula />} />
             <Route path="/admin/alunos" element={<AlunoCreateEdit />} />
             <Route path="/admin/alunos/" element={<AlunoCreateEdit />} />
-            <Route path="/admin/matriculas/:alunoId" element={<MatriculaAluno />} />
+            <Route
+              path="/admin/matriculas/:alunoId"
+              element={<MatriculaAluno />}
+            />
           </Route>
+          {/* ROTAS DO ALUNO */}
+          <Route
+            element={
+              <ProtectedRoute requiredRole="ALUNO">
+                <AlunosLayout />
+              </ProtectedRoute>
+            }
+          >
+            {/* O aluno entra direto na listagem geral de aulas */}
+            <Route path="/alunos/turmas" element={<AulasMatriculadas />} />
 
-          <Route element={
-            <ProtectedRoute requiredRole="ALUNO">
-              <AlunosLayout />
-            </ProtectedRoute>
-          }>
-            <Route path="/alunos/turmas" element={<TurmasMatriculadas />} />
+            {/* O botão de gerenciar vai levar para este caminho exclusivo aqui: */}
+            <Route path="/alunos/gerenciar" element={<TurmasMatriculadas />} />
           </Route>
-
           {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </Routes>
       </UserProvider>
     </HashRouter>
   );
 }
-
-
-
