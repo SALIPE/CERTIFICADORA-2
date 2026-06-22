@@ -96,7 +96,9 @@ public class MatriculaAlunoService {
                 .map(m -> {
                     Optional<Turma> turmaOpt = turmaRepository.findById(m.getTurma_id());
                     String turmaNome = turmaOpt.isPresent() ? turmaOpt.get().getNome() : "Desconhecida";
-                    return convertToDTO(m, aluno.getNome(), turmaNome);
+                    String turmaDescricao = turmaOpt.isPresent() ? turmaOpt.get().getDescricao() : "Sem Descrição";
+
+                    return convertToDTO(m, aluno.getNome(), turmaNome, turmaDescricao);
                 })
                 .collect(Collectors.toList());
     }
@@ -116,7 +118,15 @@ public class MatriculaAlunoService {
                 matricula.getAluno_id(),
                 matricula.getTurma_id(),
                 matricula.getCriado_em(),
-                alunoNome,
-                turmaNome);
+                alunoNome, turmaNome, "");
+    }
+
+    private MatriculaAlunoDTO convertToDTO(MatriculaAluno matricula, String alunoNome, String turmaNome, String descricao) {
+        return new MatriculaAlunoDTO(
+                matricula.getId(),
+                matricula.getAluno_id(),
+                matricula.getTurma_id(),
+                matricula.getCriado_em(),
+                alunoNome, turmaNome, descricao);
     }
 }

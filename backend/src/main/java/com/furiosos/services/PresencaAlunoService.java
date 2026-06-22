@@ -1,7 +1,9 @@
 package com.furiosos.services;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -19,6 +21,7 @@ import com.furiosos.models.User;
 import com.furiosos.repository.AulaRepository;
 import com.furiosos.repository.MatriculaAlunoRepository;
 import com.furiosos.repository.PresencaAlunoRepository;
+import com.furiosos.repository.TurmaRepository;
 import com.furiosos.repository.UserRepository;
 
 @Service
@@ -26,6 +29,8 @@ public class PresencaAlunoService {
 
     @Autowired
     private PresencaAlunoRepository presencaRepository;
+    @Autowired
+    private TurmaRepository turmaRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -96,10 +101,9 @@ public class PresencaAlunoService {
             presenca.setAtualizado_em(new Date());
 
             PresencaAluno updated = presencaRepository.atualizarPresenca(
-                presencaDTO.getId(),
-                StatusPresenca.valueOf(presencaDTO.getStatus_presenca()).toString(),
-                presencaDTO.getObservacoes()
-        );
+                    presencaDTO.getId(),
+                    StatusPresenca.valueOf(presencaDTO.getStatus_presenca()).toString(),
+                    presencaDTO.getObservacoes());
             return convertToDTO(updated, aluno.getNome(), aula.getData_hora());
         }
 
@@ -113,13 +117,11 @@ public class PresencaAlunoService {
             throw new ApiRequestException("Presença já foi registrada para este aluno nesta aula");
         }
 
-   
         PresencaAluno saved = presencaRepository.createPresenca(
                 presencaDTO.getAluno_id(),
                 presencaDTO.getAula_id(),
                 StatusPresenca.valueOf(presencaDTO.getStatus_presenca()).toString(),
-                presencaDTO.getObservacoes()
-        );
+                presencaDTO.getObservacoes());
         return convertToDTO(saved, aluno.getNome(), aula.getData_hora());
     }
 
@@ -156,7 +158,7 @@ public class PresencaAlunoService {
                 .collect(Collectors.toList());
     }
 
-    public double calcularFrequencia(UUID alunoId, UUID turmaId) {
+    public Map<String, Object> calcularFrequencia(UUID alunoId, UUID turmaId) {
         // Validar se aluno está matriculado na turma
         Optional<MatriculaAluno> matriculaOpt = matriculaRepository.findByAluno_idAndTurma_id(alunoId, turmaId);
         if (!matriculaOpt.isPresent()) {
@@ -166,18 +168,62 @@ public class PresencaAlunoService {
         // Obter todas as aulas da turma
         List<Aula> aulasTotal = aulaRepository.findByTurma_id(turmaId);
 
-        if (aulasTotal.isEmpty()) {
-            return 0;
+        double frequencia = 0;
+
+        if (!aulasTotal.isEmpty()) {
+            // Contar presenças
+            long presentes = aulasTotal.stream()
+                    .flatMap(aula -> presencaRepository.findByAula_id(aula.getId()).stream())
+                    .filter(p -> p.getAluno_id().equals(alunoId) && p.getStatus_presenca() == StatusPresenca.PRESENTE)
+                    .count();
+
+            frequencia = (presentes * 100.0) / aulasTotal.size();
+            frequencia = Math.round(frequencia * 100.0) / 100.0;
         }
 
-        // Contar presenças
-        long presentes = aulasTotal.stream()
-                .flatMap(aula -> presencaRepository.findByAula_id(aula.getId()).stream())
-                .filter(p -> p.getAluno_id().equals(alunoId) && p.getStatus_presenca() == StatusPresenca.PRESENTE)
-                .count();
+        Map<String, Object> response = new HashMap<>();
+        response.put("aluno_id", alunoId.toString());
+        response.put("turma_id", turmaId.toString());
+        response.put("frequencia_percentual", frequencia + "%");
+        response.put("frequencia_valor", frequencia);
+        return response;
+    }
 
-        double frequencia = (presentes * 100.0) / aulasTotal.size();
-        return Math.round(frequencia * 100.0) / 100.0;
+    public List<Map<String, Object>> calcularFrequencias(UUID turmaId) {
+        // Validar se turma existe
+        if (!turmaRepository.existsById(turmaId)) {
+            throw new ApiRequestException("Turma não encontrada");
+        }
+
+        List<Aula> aulasTotal = aulaRepository.findByTurma_id(turmaId);
+        List<MatriculaAluno> matriculas = matriculaRepository.findByTurma_id(turmaId);
+
+        return matriculas.stream()
+                .map(m -> {
+                    User aluno = userRepository.findById(m.getAluno_id()).orElse(null);
+                    String alunoNome = aluno != null ? aluno.getNome() : "Desconhecido";
+
+                    double frequencia = 0;
+                    if (!aulasTotal.isEmpty()) {
+                        long presentes = aulasTotal.stream()
+                                .flatMap(aula -> presencaRepository.findByAula_id(aula.getId()).stream())
+                                .filter(p -> p.getAluno_id().equals(m.getAluno_id())
+                                        && p.getStatus_presenca() == StatusPresenca.PRESENTE)
+                                .count();
+
+                        frequencia = (presentes * 100.0) / aulasTotal.size();
+                        frequencia = Math.round(frequencia * 100.0) / 100.0;
+                    }
+
+                    Map<String, Object> response = new HashMap<>();
+                    response.put("aluno_id", m.getAluno_id().toString());
+                    response.put("aluno_nome", alunoNome);
+                    response.put("turma_id", turmaId.toString());
+                    response.put("frequencia_percentual", frequencia + "%");
+                    response.put("frequencia_valor", frequencia);
+                    return response;
+                })
+                .collect(Collectors.toList());
     }
 
     private PresencaAlunoDTO convertToDTO(PresencaAluno presenca, String alunoNome, Date aulaData) {

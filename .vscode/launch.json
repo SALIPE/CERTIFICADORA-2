@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-FuriososApplication<furiosos-kid>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.furiosos.FuriososApplication",
+            "projectName": "furiosos-kid",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

@@ -11,6 +11,7 @@ public class MatriculaAlunoDTO {
     private Date criado_em;
     private String aluno_nome;
     private String turma_nome;
+    private String turma_descricao;
 
     public MatriculaAlunoDTO() {
     }
@@ -22,13 +23,14 @@ public class MatriculaAlunoDTO {
         this.criado_em = criado_em;
     }
 
-    public MatriculaAlunoDTO(UUID id, UUID aluno_id, UUID turma_id, Date criado_em, String aluno_nome, String turma_nome) {
+    public MatriculaAlunoDTO(UUID id, UUID aluno_id, UUID turma_id, Date criado_em, String aluno_nome, String turma_nome, String turma_descricao) {
         this.id = id;
         this.aluno_id = aluno_id;
         this.turma_id = turma_id;
         this.criado_em = criado_em;
         this.aluno_nome = aluno_nome;
         this.turma_nome = turma_nome;
+        this.turma_descricao = turma_descricao;
     }
 
     public UUID getId() {
@@ -78,4 +80,13 @@ public class MatriculaAlunoDTO {
     public void setTurma_nome(String turma_nome) {
         this.turma_nome = turma_nome;
     }
+
+    public String getTurma_descricao() {
+        return turma_descricao;
+    }
+
+    public void setTurma_descricao(String turma_descricao) {
+        this.turma_descricao = turma_descricao;
+    }
+
 }
