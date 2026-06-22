@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Alert, Button, Container, Form, Modal, Spinner, Table } from 'react-bootstrap';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { del, get, post } from '../../services/WebService';
-import { Aula } from '../../types/Aula';
+import { Aula, Frequencia } from '../../types/Aula';
 
 export default function AulaCreateEdit() {
   const { turmaId } = useParams<{ turmaId: string }>();
@@ -11,6 +11,7 @@ export default function AulaCreateEdit() {
   const turmaNome = (location.state as any)?.turmaNome || 'Turma';
 
   const [aulas, setAulas] = useState<Aula[]>([]);
+  const [frequencias, setFrequencias] = useState<Frequencia[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -25,6 +26,7 @@ export default function AulaCreateEdit() {
 
   useEffect(() => {
     fetchAulas();
+    fetchFrequencias();
   }, [turmaId]);
 
   const fetchAulas = async () => {
@@ -36,6 +38,21 @@ export default function AulaCreateEdit() {
       setAulas(response || []);
     } catch (error) {
       setError('Erro ao buscar aulas');
+      console.error('Erro:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchFrequencias = async () => {
+    if (!turmaId) return;
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await get(`/presencas/frequencias?turmaId=${turmaId}`);
+      setFrequencias(response)
+    } catch (error) {
+      setError('Erro ao buscar frequencias');
       console.error('Erro:', error);
     } finally {
       setLoading(false);
@@ -152,58 +169,84 @@ export default function AulaCreateEdit() {
       ) : aulas.length === 0 ? (
         <Alert variant="info">Nenhuma aula cadastrada para esta turma</Alert>
       ) : (
-        <div className="table-responsive">
-          <Table striped bordered hover className="align-middle">
-            <thead className="table-dark">
-              <tr>
-                <th>Tópico</th>
-                <th>Descrição</th>
-                <th>Data/Hora</th>
-                <th>Status</th>
-                <th>Criado em</th>
-                <th>Ações</th>
-                <th>Presenças</th>
-              </tr>
-            </thead>
-            <tbody>
-              {aulas.map((aula) => (
-                <tr key={aula.id}>
-                  <td><strong>{aula.topico}</strong></td>
-                  <td>{aula.descricao}</td>
-                  <td>{new Date(aula.data_hora).toLocaleString('pt-BR')}</td>
-                  <td>{getStatusBadge(aula.status)}</td>
-                  <td>{new Date(aula.criado_em).toLocaleDateString()}</td>
-                  <td>
-                    <Button
-                      variant="warning"
-                      size="sm"
-                      className="me-2"
-                      onClick={() => handleOpenModal(aula)}
-                    >
-                      Editar
-                    </Button>
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => handleDeleteAula(aula.id)}
-                    >
-                      Deletar
-                    </Button>
-                  </td>
-                  <td>
-                    <Button
-                      variant="warning"
-                      size="sm"
-                      className="me-2"
-                      onClick={() => handleGerenciarPresencas(turmaId, aula.id)}>
-                      Presenças
-                    </Button>
-                  </td>
+        <>
+          <div className="table-responsive mb-4">
+            <Table striped bordered hover className="align-middle">
+              <thead className="table-dark">
+                <tr>
+                  <th>Tópico</th>
+                  <th>Descrição</th>
+                  <th>Data/Hora</th>
+                  <th>Status</th>
+                  <th>Criado em</th>
+                  <th>Ações</th>
+                  <th>Presenças</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
+              </thead>
+              <tbody>
+                {aulas.map((aula) => (
+                  <tr key={aula.id}>
+                    <td><strong>{aula.topico}</strong></td>
+                    <td>{aula.descricao}</td>
+                    <td>{new Date(aula.data_hora).toLocaleString('pt-BR')}</td>
+                    <td>{getStatusBadge(aula.status)}</td>
+                    <td>{new Date(aula.criado_em).toLocaleDateString()}</td>
+                    <td>
+                      <Button
+                        variant="warning"
+                        size="sm"
+                        className="me-2"
+                        onClick={() => handleOpenModal(aula)}
+                      >
+                        Editar
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => handleDeleteAula(aula.id)}
+                      >
+                        Deletar
+                      </Button>
+                    </td>
+                    <td>
+                      <Button
+                        variant="warning"
+                        size="sm"
+                        className="me-2"
+                        onClick={() => handleGerenciarPresencas(turmaId, aula.id)}>
+                        Presenças
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+
+          <div className="table-responsive">
+            <h2 className="h5 mb-3">Frequência geral de presença</h2>
+            {frequencias.length === 0 ? (
+              <Alert variant="info">Nenhuma frequência disponível para esta turma.</Alert>
+            ) : (
+              <Table striped bordered hover className="align-middle">
+                <thead className="table-dark">
+                  <tr>
+                    <th>Aluno</th>
+                    <th>Frequência</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {frequencias.map((freq, index) => (
+                    <tr key={`${freq.aluno_id || index}-${index}`}>
+                      <td>{freq.aluno_nome}</td>
+                      <td>{freq.frequencia_percentual}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            )}
+          </div>
+        </>
       )}
 
       <Modal show={showModal} onHide={handleCloseModal} centered>

@@ -9,5 +9,12 @@ export interface Aula {
   atualizado_em: string;
 }
 
+export interface Frequencia {
+  aluno_id?: string;
+  aluno_nome: string;
+  frequencia_percentual: string;
+  frequencia_valor?: number;
+}
+
 
 

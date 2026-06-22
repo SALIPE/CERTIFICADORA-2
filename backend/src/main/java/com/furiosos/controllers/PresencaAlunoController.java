@@ -1,6 +1,5 @@
 package com.furiosos.controllers;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -67,13 +66,18 @@ public class PresencaAlunoController {
     public ResponseEntity<Map<String, Object>> calcularFrequencia(
             @RequestParam String alunoId,
             @RequestParam String turmaId) {
-        double frequencia = presencaService.calcularFrequencia(
+        Map<String, Object> response = presencaService.calcularFrequencia(
                 UUID.fromString(alunoId), UUID.fromString(turmaId));
-        Map<String, Object> response = new HashMap<>();
-        response.put("aluno_id", alunoId);
-        response.put("turma_id", turmaId);
-        response.put("frequencia_percentual", frequencia + "%");
-        response.put("frequencia_valor", frequencia);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/frequencias")
+    @ApiOperation(value = "Calcula a frequência (percentual) de todos os aluno em uma turma")
+    public ResponseEntity<List<Map<String, Object>>> calcularFrequencias(
+            @RequestParam String turmaId) {
+        List<Map<String, Object>> response = presencaService.calcularFrequencias(UUID.fromString(turmaId));
+
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
